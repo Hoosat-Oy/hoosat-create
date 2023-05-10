@@ -1,0 +1,17 @@
+{
+  "name": "hoosat-create",
+  "version": "1.1.0",
+  "description": "Hoosat Oy React + Express.js Typescript SSR project template.",
+  "main": "index.js",
+  "bin": {
+    "hoosat-create": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "download-git-repo": "^3.0.2"
+  }
+}
