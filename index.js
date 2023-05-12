@@ -24,12 +24,16 @@ async function run() {
   try {
     await promisifiedDownload(repository, destination);
     console.log('Project downloaded successfully');
+
+    // Change directory to the project directory
+    process.chdir(destination);
+
     console.log('Running npm install...');
-    const install = spawn('npm', ['install'], { cwd: destination, stdio: 'inherit' });
+    const install = spawn('npm', ['install'], { stdio: 'inherit' });
     await new Promise(resolve => install.on('close', resolve));
     console.log('npm install completed');
-    const destinationPath = path.resolve("./" + destination);
-    const packageJsonPath = path.join(destinationPath, 'package.json');
+
+    const packageJsonPath = path.join(process.cwd(), 'package.json');
     const packageJson = require(packageJsonPath);
     packageJson.name = destination;
     packageJson.description = description;
@@ -37,11 +41,32 @@ async function run() {
     packageJson.license = license;
     packageJson.keywords = keywordList;
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
-    console.log(`Project's package name updated to ${destination}`);
-    console.log(`Project's description updated to ${description}`);
-    console.log(`Project's author updated to ${author}`);
-    console.log(`Project's license updated to ${license}`);
-    console.log(`Project's keywords updated to ${keywordList.join(', ')}`);
+    console.log('Project package.json has been modified.');
+
+    // Initialize git repository
+    const gitInit = spawn('git', ['init']);
+    await new Promise(resolve => gitInit.on('close', resolve));
+    console.log('Git repository initialized.');
+
+    const installHoosatUI = await askYesNoQuestion('Do you want to install HoosatUI? [Y/n] ');
+    if (installHoosatUI) {
+      // Change directory to the client directory
+      process.chdir('src/client');
+
+      // Install HoosatUI as a git submodule
+      const gitSubmodule = spawn('git', ['submodule', 'add', 'https://github.com/hoosat-oy/HoosatUI']);
+      await new Promise(resolve => gitSubmodule.on('close', resolve));
+      console.log('HoosatUI installed successfully.');
+
+      // Install necessary dependencies
+      const installDeps = spawn('npm', ['install', '--save-dev', '@testing-library/jest-dom', '@testing-library/react']);
+      await new Promise(resolve => installDeps.on('close', resolve));
+      console.log('npm HoosatUI devDependencies installed successfully.');
+
+      const installMarkdownDeps = spawn('npm', ['install', 'react-markdown', 'rehype-highlight', 'remark-gfm']);
+      await new Promise(resolve => installMarkdownDeps.on('close', resolve));
+      console.log('npm HoosatUI dependencies installed successfully.');
+    }
   } catch (err) {
     console.error(`Failed to download project: ${err}`);
   } finally {
@@ -55,4 +80,16 @@ function askQuestion(question) {
   });
 }
 
+function askYesNoQuestion(question) {
+  return new Promise(resolve => {
+    rl.question(question, answer => {
+      const normalizedAnswer = answer.trim().toLowerCase();
+      resolve(normalizedAnswer === '' || normalizedAnswer === 'y' || normalizedAnswer === 'yes');
+    });
+  });
+}
+
 run();
+
+// Export the askQuestion function for testing purposes
+module.exports = { askQuestion };
