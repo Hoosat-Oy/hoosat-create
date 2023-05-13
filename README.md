@@ -33,6 +33,9 @@ npx hoosat-create@latest
 - `npm run start`: Runs the production version.
 - `npm run test`: Runs test units with Jest.
 
+## Join us
+[https://discord.gg/UXPFcPaPBg](Discord)
+
 
 
 
