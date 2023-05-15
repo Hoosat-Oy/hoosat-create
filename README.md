@@ -10,7 +10,7 @@ npx hoosat-create@latest
 
 ## Technologies Used
 
-- React-helmet-async 1.3 for SEO. 
+- React-helmet-async 1.3
 - React 18.2
 - Express 4.18
 - TypeScript 4.9.2
