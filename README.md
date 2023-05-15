@@ -10,6 +10,7 @@ npx hoosat-create@latest
 
 ## Technologies Used
 
+- React-helmet-async 1.3 for SEO. 
 - React 18.2
 - Express 4.18
 - TypeScript 4.9.2
@@ -20,6 +21,7 @@ npx hoosat-create@latest
 ## Features
 
 - Full-stack TypeScript application using React and Express.
+- Includes working server side SEO with `react-helmet-async`
 - Supports ES modules for server-side and client-side code.
 - Configured with Webpack and Babel for production builds.
 - Includes Jest for unit testing.
