@@ -1,7 +1,7 @@
 {
   "name": "hoosat-create",
-  "version": "1.3.5",
-  "description": "Hoosat Oy React + Express.js Typescript SSR project template.",
+  "version": "1.4.0",
+  "description": "Hoosat - React & Typescript SSR project template.",
   "main": "index.js",
   "bin": {
     "hoosat-create": "index.js"
