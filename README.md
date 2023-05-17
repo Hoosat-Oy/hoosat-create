@@ -20,7 +20,7 @@ npx hoosat-create@latest
 
 - Full-stack TypeScript application using React and Node HTTP/HTTPS.
 - Includes working server side SEO with `react-helmet-async`
-- Supports ES modules for server-side and client-side code.
+- Supports ES modules for server-side and client-side ```.
 - Configured with Webpack for production builds.
 - Includes Jest for unit testing.
 - Includes example components and routes for getting started.
@@ -47,21 +47,59 @@ npx hoosat-create@latest
 
 ## File structure
 
-- `src/client`: Contains client-side code (React components, styles, etc.).
-- `src/server`: Contains server-side code (Node HTTP/HTTPS routes, API routes, etc.).
-- `src/common`: Contains common code.
-- `public`: Contains the bundle.js client code and public files for the project.
+- `src/client`: Contains client-side ``` (React components, styles, etc.).
+- `src/server`: Contains server-side ``` (Node HTTP/HTTPS routes, API routes, etc.).
+- `src/common`: Contains common ```.
+- `public`: Contains the bundle.js client ``` and public files for the project.
 - `dist`: Contains production build output of server.
+
+## Node HTTP/HTTP server with server side router.
+
+`src/server/core/server.ts` contains the source ```, it supports middlewares, wildcard routes and specific routes. There are middlewares currently for setting cors and static files. 
+
+### Basic example
+
+```
+import { createRouter, createServer, listen } from './core/server';
+import { cors } from './core/cors';
+import { assets } from './core/assets';
+// Creating the router
+const router = createRouter();
+
+// Adding static file middleware
+router.Middleware(assets("./public"));
+
+// Creating a ping route
+// For request and response we dont use wrappers for node http types and methods.
+router.Get("/ping", (req: IncomingMessage, res: ServerResponse) => {
+  res.writeHead(20, { 'Content-Type': "text/plain" });
+  res.end("pong!");
+});
+
+// Now that the middleware and routes have been set the server must be created that handles the routes.
+const server = createServer(router);
+
+// Start listening on port 3000
+const port = parseInt(process.env.PORT || "8080");
+listen(server, port, () => {
+  console.log(`Server is running on port ${port.toString()}`);
+});
+```
+
 
 ## License
 This template is licensed under the MIT License. Feel free to use it for your own projects or as a starting point for your own templates.
 
 ## Message
 
-I just dropped some dependancies from the repository and this will keep happening. With our own code we can keep it up to date with React and Node versions more easily. 
+I just dropped some dependancies from the repository and this will keep happening. With our own ``` we can keep it up to date with React and Node versions more easily. 
 Though for now the only goal seems to be to drop `react-helmet-async`. 
 
 ## Release changes
+
+### 1.4.0 -> 1.4.1
+- Changed createServer to include options argument for changing server protocol and to include SSL certificate information.
+- JSDoc has been added and more documentation work.
 
 ### 1.3.5 -> 1.4.0
 - Dropped Express.js and Babel from dependancies.
@@ -69,7 +107,3 @@ Though for now the only goal seems to be to drop `react-helmet-async`.
 
 ## Join us
 [https://discord.gg/UXPFcPaPBg](Discord)
-
-
-
-
