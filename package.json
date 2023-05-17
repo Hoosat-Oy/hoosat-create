@@ -1,14 +1,22 @@
 {
   "name": "hoosat-create",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Hoosat - React & Typescript SSR project template.",
+  "homepage": "https://example.com",
+  "author": "Toni Lukkaroinen @ Hoosat Oy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hoosat-Oy/hoosat-create/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hoosat-Oy/hoosat-create"
+  },
   "main": "index.js",
   "bin": {
     "hoosat-create": "index.js"
   },
   "scripts": {
     "test": "node index.js"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }

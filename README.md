@@ -88,7 +88,7 @@ listen(server, port, () => {
 
 
 ## License
-This template is licensed under the MIT License. Feel free to use it for your own projects or as a starting point for your own templates.
+This template is licensed under the ISC License. Feel free to use it for your own projects or as a starting point for your own templates.
 
 ## Message
 
@@ -96,7 +96,8 @@ I just dropped some dependancies from the repository and this will keep happenin
 Though for now the only goal seems to be to drop `react-helmet-async`. 
 
 ## Release changes
-
+### 1.4.2 -> 1.4.3
+- Update package.json to contain metadata
 
 ### 1.4.1 -> 1.4.2
 - Remove download-git-repo dependancy from hoosat-create
