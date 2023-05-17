@@ -97,6 +97,7 @@ Though for now the only goal seems to be to drop `react-helmet-async`.
 
 ## Release changes
 
+
 ### 1.4.1 -> 1.4.2
 - Remove download-git-repo dependancy from hoosat-create
 - Do input validation in hoosat-create. Which means following characters do not work in project name. 

@@ -1,13 +1,13 @@
 {
   "name": "hoosat-create",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Hoosat - React & Typescript SSR project template.",
   "main": "index.js",
   "bin": {
     "hoosat-create": "index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js"
   },
   "author": "",
   "license": "ISC"
