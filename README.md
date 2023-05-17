@@ -97,6 +97,11 @@ Though for now the only goal seems to be to drop `react-helmet-async`.
 
 ## Release changes
 
+### 1.4.1 -> 1.4.2
+- Remove download-git-repo dependancy from hoosat-create
+- Do input validation in hoosat-create. Which means following characters do not work in project name. 
+  - ';', '|', '&&', '>', '<', '`', '$(', '$()'
+
 ### 1.4.0 -> 1.4.1
 - Changed createServer to include options argument for changing server protocol and to include SSL certificate information.
 - JSDoc has been added and more documentation work.

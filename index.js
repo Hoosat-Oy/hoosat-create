@@ -1,13 +1,11 @@
 #!/usr/bin/env node
-const download = require('download-git-repo');
 const { promisify } = require('util');
-const promisifiedDownload = promisify(download);
-const readline = require('readline');
 const { spawn } = require('child_process');
+const readline = require('readline');
 const fs = require('fs');
 const path = require('path');
 
-const repository = 'github:Hoosat-Oy/hoosat-template';
+const repository = 'https://github.com/Hoosat-Oy/hoosat-template.git';
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -20,15 +18,16 @@ async function run() {
   const license = await askQuestion('Enter project license: ');
   const keywords = await askQuestion('Enter project keywords (comma-separated): ');
   const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k !== '');
-  const gitInit = await askYesNoQuestion('Do you want to install initialize git repository? [Y/n] ');
+  const gitInit = await askYesNoQuestion('Do you want to initialize a git repository? [Y/n] ');
   let installHoosatUI = undefined;
-  if(gitInit) {
+  if (gitInit) {
     installHoosatUI = await askYesNoQuestion('Do you want to install HoosatUI? [Y/n] ');
   }
   try {
-    // Download git repository.
-    await promisifiedDownload(repository, destination);
-    console.log('Project downloaded successfully');
+    // Clone git repository.
+    const clone = spawn('git', ['clone', repository, destination]);
+    await new Promise(resolve => clone.on('close', resolve));
+    console.log('Project cloned successfully');
     // Change directory to the project directory
     process.chdir(destination);
     // Modify the package.json
@@ -41,7 +40,7 @@ async function run() {
     packageJson.keywords = keywordList;
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
     console.log('Project package.json has been modified.');
-    // Do NPM install for dependancies.
+    // Do NPM install for dependencies.
     const install = spawn('npm', ['install'], { stdio: 'inherit' });
     await new Promise(resolve => install.on('close', resolve));
     console.log('npm install completed');
@@ -53,40 +52,64 @@ async function run() {
       if (installHoosatUI) {
         // Change directory to the client directory
         process.chdir('src/client');
-        // Install HoosatUI as a git submodule
-        const gitSubmodule = spawn('git', ['submodule', 'add', 'https://github.com/hoosat-oy/HoosatUI'], { stdio: 'inherit' });
-        await new Promise(resolve => gitSubmodule.on('close', resolve));
-        console.log('HoosatUI installed successfully.');
+        // Clone HoosatUI repository
+        const hoosatUIClone = spawn('git', ['clone', 'https://github.com/hoosat-oy/HoosatUI']);
+        await new Promise(resolve => hoosatUIClone.on('close', resolve));
+        console.log('HoosatUI cloned successfully.');
         // Install necessary dev-dependencies
         const installHoosatUIDevDeps = spawn('npm', ['install', '--save-dev', '@testing-library/jest-dom', '@testing-library/react'], { stdio: 'inherit' });
         await new Promise(resolve => installHoosatUIDevDeps.on('close', resolve));
         console.log('npm HoosatUI devDependencies installed successfully.');
-        // Install necessary dependancies.
+        // Install necessary dependencies.
         const installHoosatUIDeps = spawn('npm', ['install', 'react-markdown', 'rehype-highlight', 'remark-gfm'], { stdio: 'inherit' });
         await new Promise(resolve => installHoosatUIDeps.on('close', resolve));
         console.log('npm HoosatUI dependencies installed successfully.');
       }
     }
   } catch (err) {
-    console.error(`Failed to download project: ${err}`);
+    console.error(`Failed to clone project: ${err}`);
   } finally {
     rl.close();
   }
 }
 
 function askQuestion(question) {
-  return new Promise(resolve => {
-    rl.question(question, resolve);
+  return new Promise((resolve, reject) => {
+    rl.question(question, answer => {
+      const trimmedAnswer = answer.trim();
+      if (trimmedAnswer !== '') {
+        if (!containsInvalidCharacters(trimmedAnswer)) {
+          resolve(trimmedAnswer);
+        } else {
+          reject(new Error('Invalid input. The answer contains invalid characters.'));
+        }
+      } else {
+        reject(new Error('Invalid input. Please provide a non-empty value.'));
+      }
+    });
   });
 }
 
 function askYesNoQuestion(question) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     rl.question(question, answer => {
       const normalizedAnswer = answer.trim().toLowerCase();
-      resolve(normalizedAnswer === '' || normalizedAnswer === 'y' || normalizedAnswer === 'yes');
+      if (normalizedAnswer === '' || normalizedAnswer === 'y' || normalizedAnswer === 'yes') {
+        resolve(true);
+      } else if (normalizedAnswer === 'n' || normalizedAnswer === 'no') {
+        resolve(false);
+      } else {
+        reject(new Error('Invalid input. Please provide a valid yes/no answer (Y/n).'));
+      }
     });
   });
+}
+
+function containsInvalidCharacters(input) {
+  // Define the list of invalid characters or commands
+  const invalidCharacters = [';', '|', '&&', '>', '<', '`', '$(', '$()'];
+  // Check if the input contains any invalid characters or commands
+  return invalidCharacters.some(character => input.includes(character));
 }
 
 run();
