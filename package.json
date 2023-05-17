@@ -1,6 +1,7 @@
 {
   "name": "hoosat-create",
-  "version": "1.4.3",
+  "type": "module",
+  "version": "1.4.4",
   "description": "Hoosat - React & Typescript SSR project template.",
   "homepage": "https://example.com",
   "author": "Toni Lukkaroinen @ Hoosat Oy",

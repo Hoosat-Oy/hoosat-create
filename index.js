@@ -1,10 +1,11 @@
-const { spawn } = require('child_process');
-const readline = require('readline');
-const fs = require('fs');
-const path = require('path');
+#!/usr/bin/env node
+import { spawn } from 'child_process';
+import { createInterface } from 'readline';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
 const repository = 'https://github.com/Hoosat-Oy/hoosat-template.git';
-const rl = readline.createInterface({
+const rl = createInterface({
   input: process.stdin,
   output: process.stdout
 });
@@ -37,15 +38,15 @@ async function run() {
     // Change directory to the project directory
     process.chdir(destination);
     // Modify the package.json
-    const packageJsonPath = path.join(process.cwd(), 'package.json');
-    const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf8');
+    const packageJsonPath = join(process.cwd(), 'package.json');
+    const packageJsonContent = readFileSync(packageJsonPath, 'utf8');
     const packageJson = JSON.parse(packageJsonContent);
     packageJson.name = destination;
     packageJson.description = description;
     packageJson.author = author;
     packageJson.license = license;
     packageJson.keywords = keywordList;
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
     console.log('Project package.json has been modified.');
     // Do NPM install for dependencies.
     const install = spawn('npm', ['install'], { stdio: 'inherit' });
@@ -157,4 +158,4 @@ function containsInvalidCharacters(input) {
 run();
 
 // Export the askQuestion function for testing purposes
-module.exports = { askQuestion };
+export default { askQuestion };
