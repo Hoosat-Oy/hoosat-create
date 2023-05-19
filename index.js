@@ -78,6 +78,7 @@ async function run() {
     //   console.error(error, error.message);
     // }
     console.log("Now commit your changes to git.");
+    rl.close();
   } else {
     console.log('Creating a new project from Hoosat React SSR Template.');
     const destination = getValueFromArgument('destination') || (await askQuestion('Enter destination project name: '));
