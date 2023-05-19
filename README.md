@@ -96,7 +96,7 @@ router.Middleware(assets("./public"));
 
 // Creating a ping route
 // For request and response we dont use wrappers for node http types and methods.
-router.Get("/ping", (req: IncomingMessage, res: ServerResponse) => {
+router.Get("/ping", (req: HoosatRequest, res: HoosatResponse) => {
   res.status(200).json("pong!");
 });
 
