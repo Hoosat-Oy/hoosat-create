@@ -8,6 +8,31 @@ Hoosat create is a `npx` script that creates React 18.2 full-stack server side r
 npx hoosat-create@latest
 ```
 
+### Commandline arguments
+- `submodule`
+- `--destination`
+- `--author`
+- `--license`
+- `--keywords`
+- `--keywoordsList`
+- `--gitInit`
+- `--hoosatui` 
+
+For example: 
+
+```
+npx hoosat-create@latest --destination "new_project" --author "Toni Lukkaroinen" --gitInit Y --hoosatui Y
+```
+
+Now it will ask the rest like `license` in the process. Which you can default just by pressing enter.
+
+### Submodule creation
+
+The following command creates an empty git submodule for you to start working on code that will be shared with another project later.
+```
+npx hoosat-create@latest submodule --destination "src/client/submodule"
+```
+
 ## Technologies Used
 
 - React-helmet-async 1.3
@@ -97,7 +122,9 @@ Though for now the only goal seems to be to drop `react-helmet-async`.
 ## Release changes
 
 ### 1.4.4 -> 1.4.5
-- One small document change, to make your life easier.
+- One small document change in server code example, to make your life easier.
+- Add support for command line arguments. 
+- Add support for npx hoosat-create submodule
 
 ### 1.4.3 -> 1.4.4
 - Why the heck I removed that #!/usr/bin/env node.. Now it's back.
