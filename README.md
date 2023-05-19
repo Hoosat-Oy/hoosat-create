@@ -72,8 +72,7 @@ router.Middleware(assets("./public"));
 // Creating a ping route
 // For request and response we dont use wrappers for node http types and methods.
 router.Get("/ping", (req: IncomingMessage, res: ServerResponse) => {
-  res.writeHead(20, { 'Content-Type': "text/plain" });
-  res.end("pong!");
+  res.status(200).json("pong!");
 });
 
 // Now that the middleware and routes have been set the server must be created that handles the routes.
@@ -96,6 +95,13 @@ I just dropped some dependancies from the repository and this will keep happenin
 Though for now the only goal seems to be to drop `react-helmet-async`. 
 
 ## Release changes
+
+### 1.4.4 -> 1.4.5
+- One small document change, to make your life easier.
+
+### 1.4.3 -> 1.4.4
+- Why the heck I removed that #!/usr/bin/env node.. Now it's back.
+
 ### 1.4.2 -> 1.4.3
 - Update package.json to contain metadata
 
