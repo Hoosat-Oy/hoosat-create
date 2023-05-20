@@ -95,7 +95,7 @@ async function run() {
     try {
       // Clone git repository.
       try { 
-        await runCommand(`git clone ${repository} ${destination}`, 'Failed to clone project.', { stdio: 'inherit' });
+        await runCommand(`git clone --recursive ${repository} ${destination}`, 'Failed to clone project.', { stdio: 'inherit' });
         console.log('Project cloned successfully.');
       } catch (error) {
         console.error(error.message);
