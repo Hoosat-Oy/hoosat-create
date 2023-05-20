@@ -121,7 +121,7 @@ Though for now the only goal seems to be to drop `react-helmet-async`.
 
 ## Release changes
 
-### 1.4.4 -> 1.4.5
+### 1.4.5 -> 1.4.6
 - Use submodule for server, make cloning of template recursive.
 
 ### 1.4.4 -> 1.4.5
