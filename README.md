@@ -122,6 +122,9 @@ Though for now the only goal seems to be to drop `react-helmet-async`.
 ## Release changes
 
 ### 1.4.4 -> 1.4.5
+- Use submodule for server, make cloning of template recursive.
+
+### 1.4.4 -> 1.4.5
 - One small document change in server code example, to make your life easier.
 - Add support for command line arguments. 
 - Add support for npx hoosat-create submodule
