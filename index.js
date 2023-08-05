@@ -124,6 +124,7 @@ async function run() {
         // Initialize git repository
         try { 
           await runCommand('git init', 'Failed to initialize git repository.', { stdio: 'inherit' });
+          await runCommand('git remote rm origin', 'Failed to remove origin remote from git repository.', { stdio: 'inherit' });
           console.log('Git has been initialized.');
         } catch (error) {
           console.error(error.message);
